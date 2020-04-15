@@ -1,0 +1,21 @@
+3 API calls
+1st for current weather
+2nd UV index - lat & long from first API
+3rd for 5 day forecast
+
+Submit button function
+Input box - get a city that the user inputs - get that city and add to array that youre goijng to store in local storage - 
+make sure to store multiply several cities
+ 
+
+BREAK YOUR CODE INTO FUNCTIONS
+
+grab previous "search for a city" from local storage
+Run API call automatically 
+
+grab city list from local storage and populate and display last city weather in the array
+
+the cities will be my buttons
+
+If statement for UV color index - addClass 
+
