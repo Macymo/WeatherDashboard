@@ -1,12 +1,12 @@
 $(document).ready(function(){
 
-    var cities = []
+    var cities = [];
 
     $("#currentCity").hide();
     $("#fiveDay").hide();
     //current city forecast API Call
     function currentCityForecast(city){
-        var apiKey = "818e5b0e3e17697364971c8cea59f2dd"
+        var apiKey = "818e5b0e3e17697364971c8cea59f2dd";
         //var city = ""
         var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
@@ -14,17 +14,16 @@ $(document).ready(function(){
              url: queryURL,
              method: "GET"
          }).then(function(response){
-            console.log(response);
+            
+                var weatherIcon = response.weather[0].icon;
+                var date = $("<h2>").text(moment().format('l'));
+                var icon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png"); 
                 //convert temp to fahrenheit
                 var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
                 $("#currentCityName").text(response.name);
-                //$("<img>").append("src", response.weather[0].icon);
-                //console.log(response.weather[0].icon);
-
-                //var date = $("<img>").text(moment().format('l'));
-                //$("#currentCityName").append(date);
-                //console.log(moment().format("l"));
+                $("#currentCityName").append(date);
+                $("#currentCityName").append(icon);
                 $("#currentCityTemp").text(tempF.toFixed(2) + " \u00B0F");
                 $("#currentCityHumid").text(response.main.humidity + "%");
                 $("#currentCityWind").text(response.wind.speed + "MPH");
@@ -72,9 +71,9 @@ $(document).ready(function(){
     };
 
     function createCityLists(city){
-        console.log("inCityList");
+        //console.log("inCityList");
         var cityLi = $("<li>").text(city)
-        console.log(cityLi);
+        //console.log(cityLi);
         $("#cityList").append(cityLi); 
     };
 
@@ -95,7 +94,7 @@ $(document).ready(function(){
         
 });
 
-    $(document).on("click", "")
+    //$(document).on("click", "<li>", currentCityForecast());
 
 //     function init() {
 //         // Get stored cities from localStorage
