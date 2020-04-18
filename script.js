@@ -4,12 +4,11 @@ $(document).ready(function(){
 
     $("#currentCity").hide();
     $("#fiveDay").hide();
-    init();
 
     //main current city forecast API Call
     function currentCityForecast(city){
         var apiKey = "818e5b0e3e17697364971c8cea59f2dd";
-        var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
         $.ajax({
             url: queryURL,
@@ -17,7 +16,7 @@ $(document).ready(function(){
         }).then(function(response){
             var weatherIcon = response.weather[0].icon;
             var date = $("<h2>").text(moment().format('l'));
-            var icon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png"); 
+            var icon = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png"); 
             //convert temp to fahrenheit
             var tempF = (response.main.temp - 273.15) * 1.80 + 32;
                 
@@ -30,7 +29,7 @@ $(document).ready(function(){
 
                 var lat = response.coord.lat
                 var lon = response.coord.lon
-                queryURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon; 
+                queryURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon; 
                 $.ajax({
                     url: queryURL,
                     method: "GET"
@@ -58,7 +57,7 @@ $(document).ready(function(){
     //5 day forecast API call
     function fiveDayForecast(city){
         var apiKey = "818e5b0e3e17697364971c8cea59f2dd"
-        var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
+        var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
     
         $.ajax({
             url: queryURL,
@@ -113,6 +112,7 @@ $(document).ready(function(){
             weather(cities[cities.length -1]);
         }; 
     };
+    init();
 
     //Click event to save user input in local storage
     $("#searchBtn").click(function(){
