@@ -22,3 +22,21 @@ main {
     margin: 20%;
     padding: 20%;
 };
+
+ .low {
+    padding: 5%;
+    background-color: green;
+    color: white;
+}
+  
+  .moderateToHigh {
+    padding: 5%;
+    background-color: orange;
+    color: white;
+}
+  
+  .veryHigh {
+    padding: 5%;
+    background-color: red;
+    color: white;
+};
