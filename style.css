@@ -23,19 +23,22 @@ main {
     padding: 20%;
 };
 
- .low {
+.favorable {
+    border-radius: 10px;
     padding: 5%;
     background-color: green;
     color: white;
-}
+};
   
-  .moderateToHigh {
+.moderate {
+    border-radius: 10px;
     padding: 5%;
     background-color: orange;
     color: white;
-}
+};
   
-  .veryHigh {
+.severe {
+    border-radius: 10px;
     padding: 5%;
     background-color: red;
     color: white;

@@ -4,7 +4,9 @@ $(document).ready(function(){
 
     $("#currentCity").hide();
     $("#fiveDay").hide();
-    //current city forecast API Call
+    init();
+
+    //main current city forecast API Call
     function currentCityForecast(city){
         var apiKey = "818e5b0e3e17697364971c8cea59f2dd";
         var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
@@ -33,23 +35,23 @@ $(document).ready(function(){
                     url: queryURL,
                     method: "GET"
                 }).then(function(response){
-                        $("#currentCityUV").each(function(){
-                            var uvIndex = response.value;
-                            if (uvIndex <= 2.9){
-                                $(this).addClass("low");
-                            } else if (uvIndex = 3 || uvIndex <= 7.9){
-                                $(this).addClass("moderateToHigh");
-                            } else {
-                                $(this).addClass("veryHigh");
-                            };
+                    var uvIndex = response.value;
+                    $("#currentCityUV").removeClass("favorable");
+                    $("#currentCityUV").removeClass("moderate");
+                    $("#currentCityUV").removeClass("severe");
+                        if (uvIndex <= 2.9){
+                            $("#currentCityUV").addClass("favorable");
+                        } else if (uvIndex >= 3 && uvIndex <= 7.9){
+                            $("#currentCityUV").addClass("moderate");
+                        } else {
+                            $("#currentCityUV").addClass("severe");
+                        };
 
                         $("#currentCityUV").text(response.value);
-                        console.log(resonse.value);
-                        });
+                    
                 });   
 
-                $("#currentCity").show();
-                 
+                $("#currentCity").show();   
         }); 
     };
         
@@ -62,57 +64,38 @@ $(document).ready(function(){
             url: queryURL,
             method: "GET"
         }).then(function(response){
-            for(var i=0; i <= 5; i++){
-                //var date = response.list[i].dt;
-                //var newDay = newDate(parseInt(date.subtr(6)));
-                //console.log(newDay);
-                var date = moment(response.list[i].dt * 1000).format("l");
+            var counter = 1
+            for(var i=0; i < response.list.length; i += 8){
+                var date = moment(response.list[i].dt_txt).format("l");
                 var weatherIcon = response.list[i].weather[0].icon;
                 //convert temp to fahrenheit
                 var tempF = (response.list[i].main.temp - 273.15) * 1.80 + 32;
                     
-                $("#date" + i).text(date);
-                $("#icon" + i).attr("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
-                $("#temp" + i).text(tempF.toFixed(2) + " \u00B0F");
-                $("#humid" + i).text(response.list[i].main.humidity + "%"); 
+                $("#date" + counter).text(date);
+                $("#icon" + counter).attr("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
+                $("#temp" + counter).text(tempF.toFixed(2) + " \u00B0F");
+                $("#humid" + counter).text(response.list[i].main.humidity + "%"); 
+                counter++;
 
             };
+
             $("#fiveDay").show();   
         });
     };
 
+    function createCityLists(city){
+        var cityLi = $("<li>").text(city)
+        cityLi.addClass("cityList");
+        $("#cityList").append(cityLi); 
+    };
+
     //Clear input element and render a new li for each city
     function renderCities(){
-        //console.log(cities);
         $("#cityList").empty();
         for (var i = 0; i < cities.length; i++) { 
             createCityLists(cities[i]);
         };
     };
-
-    function createCityLists(city){
-        //console.log("inCityList");
-        var cityLi = $("<li>").text(city)
-        //console.log(cityLi);
-        cityLi.addClass("cityList");
-        $("#cityList").append(cityLi); 
-    };
-
-    //Click event to save user input in local storage
-    $("#searchBtn").click(function(){
-        var cityInputs = $(this).siblings("#userInput").val().trim();
-        $("#userInput").val("");
-        //console.log(cityInputs);
-        if (cityInputs !== ""){
-            if (cities.indexOf(cityInputs)== -1){
-                cities.push(cityInputs);
-                localStorage.setItem("searches",JSON.stringify(cities));
-                createCityLists(cityInputs);
-            };
-            
-            weather(cityInputs);
-        };
-    });
 
     function weather(city){
         currentCityForecast(city);
@@ -128,13 +111,27 @@ $(document).ready(function(){
             cities = storedCities;
             renderCities();
             weather(cities[cities.length -1]);
-        };
-        
+        }; 
     };
-    init();
+
+    //Click event to save user input in local storage
+    $("#searchBtn").click(function(){
+        var cityInputs = $(this).siblings("#userInput").val().trim();
+        $("#userInput").val("");
+        if (cityInputs !== ""){
+            if (cities.indexOf(cityInputs)== -1){
+                cities.push(cityInputs);
+                localStorage.setItem("searches",JSON.stringify(cities));
+                createCityLists(cityInputs);
+            };
+            
+            weather(cityInputs);
+        };
+    });
 
     $("#cityList").on("click", ".cityList", function(){
         var cityOnButton = $(this).text();
         weather(cityOnButton);
     });
+
 });
