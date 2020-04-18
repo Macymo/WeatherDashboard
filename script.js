@@ -71,7 +71,7 @@ $(document).ready(function(){
                 var tempF = (response.list[i].main.temp - 273.15) * 1.80 + 32;
                     
                 $("#date" + counter).text(date);
-                $("#icon" + counter).attr("src", "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
+                $("#icon" + counter).attr("src", "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png");
                 $("#temp" + counter).text(tempF.toFixed(2) + " \u00B0F");
                 $("#humid" + counter).text(response.list[i].main.humidity + "%"); 
                 counter++;
