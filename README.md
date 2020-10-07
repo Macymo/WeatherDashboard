@@ -5,10 +5,14 @@ A weather dashboard that is responsive, runs in the browser, and features dynami
 
 ## Table of Contents
 
+* [Usage](#usage)
 * [Contributing](#contributing)
 * [Questions](#questions)
 
 ![WeatherDashboard](WeatherDashboard.png)
+
+## Usage
+https://macymo.github.io/WeatherDashboard/
 
 ## Contributing
 Contact Me
